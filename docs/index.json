@@ -1,0 +1,33 @@
+{
+  "format": 1,
+  "title": "LovelyCarve",
+  "packages": [
+    {
+      "id": "org.lovelycarve.linuxinfo",
+      "name": "Linux信息",
+      "description": "识别出的 Linux 系统的基本信息：系统、用户、登录、网络、服务、软件与用户痕迹",
+      "publisher": "LovelyTeams",
+      "license": "AGPL-3.0-only",
+      "locales": {
+        "en": {
+          "plugin.description": "Base information of a detected Linux system: system, users, logins, network, services, software and user traces",
+          "plugin.name": "Linux information"
+        }
+      },
+      "versions": [
+        {
+          "version": "2.0.0",
+          "published": "2026-11-25T09:37:14Z",
+          "packages": [
+            {
+              "platform": "windows-x86_64",
+              "url": "org.lovelycarve.linuxinfo-2.0.0-windows-x86_64.lcpkg",
+              "size": 1142910,
+              "sha256": "628b89a0d1beaef8564725d47f8684a54a3e6b48fd5bb62f75da6e0b2d4cdf7b"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="下载 LovelyCarve 插件，查看发布版本、运行平台和 SHA-256，或添加官方插件市场源。">
+  <meta name="theme-color" content="#f5f4f0">
+  <title>插件发布 · LovelyCarve</title>
+  <link rel="icon" href="./assets/32x32.png" type="image/png">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./catalog.js"></script>
+</head>
+<body>
+  <a class="skip" href="#page-title" data-en="Skip to content">跳到主要内容</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="https://github.com/LovelyTeams/LovelyCarve" lang="en">
+        <img src="./assets/32x32.png" width="32" height="32" alt="">
+        LovelyCarve
+      </a>
+      <nav class="nav" aria-label="站内导航" data-en-label="Site navigation">
+        <a href="#releases" data-en="Releases">插件发布</a>
+        <a href="#install" data-en="Install">安装</a>
+      </nav>
+      <a class="language" id="language" href="?lang=en" lang="en" hreflang="en">English</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <h1 id="page-title" tabindex="-1" data-en="Plugin releases">插件发布</h1>
+          <p data-en="Download LovelyCarve forensic plugins or install them from the in-app market.">下载 LovelyCarve 取证插件，或从应用内的官方市场安装。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#releases"><span data-en="Browse releases">浏览发布</span><span aria-hidden="true">↓</span></a>
+            <a class="button secondary" href="#install" data-en="Add market source">添加市场源</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <img src="./assets/lovelycarve-512.webp"
+            srcset="./assets/lovelycarve-256.webp 256w, ./assets/lovelycarve-512.webp 512w"
+            sizes="(max-width: 700px) 180px, 320px"
+            width="512" height="512" fetchpriority="high" alt="">
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section" id="releases">
+      <div class="section-header">
+        <h2 data-en="Available plugins">可下载的插件</h2>
+        <p id="release-count"></p>
+      </div>
+      <p id="catalog-status" class="status" role="status"></p>
+      <noscript><p>查看插件包、下载地址及校验值，请打开 <a href="./index.json">市场索引</a>。</p></noscript>
+      <ul id="catalog" class="catalog"></ul>
+      <template id="plugin-template">
+        <li class="plugin">
+          <div class="plugin-intro">
+            <div class="package-icon" aria-hidden="true"></div>
+            <div>
+              <h3></h3>
+              <code class="plugin-id"></code>
+              <p class="description"></p>
+              <p class="publisher"></p>
+            </div>
+          </div>
+          <ul class="versions"></ul>
+        </li>
+      </template>
+      <template id="version-template">
+        <li class="version">
+          <div class="version-meta">
+            <strong class="version-number"></strong>
+            <time></time>
+          </div>
+          <ul class="downloads"></ul>
+        </li>
+      </template>
+      <template id="package-template">
+        <li class="download">
+          <div class="download-row">
+            <div>
+              <span class="platform"></span>
+              <span class="size"></span>
+            </div>
+            <a class="button secondary download-link" download>
+              <span class="download-label"></span><span aria-hidden="true">↓</span>
+            </a>
+          </div>
+          <details class="checksum">
+            <summary></summary>
+            <code></code>
+          </details>
+        </li>
+      </template>
+    </section>
+
+    <section class="wrap section install" id="install">
+      <div>
+        <h2 data-en="Install plugins">安装插件</h2>
+        <p class="install-help" data-en="The market source requires a build of LovelyCarve with Plugin Market support.">
+          添加市场源需要支持「插件市场」的 LovelyCarve 版本。
+        </p>
+      </div>
+      <div class="install-methods">
+        <section class="install-primary">
+          <h3 data-en="From the Plugin Market">从插件市场安装</h3>
+          <p data-en="In LovelyCarve, open Settings → Plugin Market and add this source. Select a plugin and confirm installation.">
+            在 LovelyCarve 打开「设置 → 插件市场」并添加下方地址。选择插件并确认安装。
+          </p>
+          <div class="source">
+            <a class="source-url" id="source-url" href="./index.json">https://lovelyteams.github.io/LovelyCarve-Plugin-Site/index.json</a>
+            <button type="button" class="button secondary" id="copy-source" command="--copy" commandfor="source-url" data-en="Copy URL" hidden>复制地址</button>
+          </div>
+          <p class="copy-status" id="copy-status" role="status"></p>
+        </section>
+        <section class="install-manual">
+          <h3 data-en="Install a downloaded package">手动安装插件包</h3>
+          <p data-en="Download the .lcpkg for your operating system. In Settings → Plugins, choose Install plugin package and review the package before confirming.">
+            下载适合你操作系统的 .lcpkg。在「设置 → 插件」选择「安装插件包」，检视后确认安装。
+          </p>
+          <p data-en="If the plugin is bundled with your build, use the bundled copy.">
+            如果当前版本已内置该插件，可直接使用内置版本。
+          </p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span class="brand" lang="en">LovelyCarve</span>
+      <div class="footer-links">
+        <a href="https://github.com/LovelyTeams/LovelyCarve-Plugins" data-en="Plugin source">插件源码</a>
+        <a href="https://github.com/LovelyTeams/LovelyCarve/blob/main/docs/PLUGIN_PROTOCOL.md#插件市场" data-en="Market documentation">市场文档</a>
+        <a href="https://github.com/LovelyTeams/LovelyCarve-Plugin-Site" data-en="Website source">网页源码</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
