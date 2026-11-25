@@ -226,7 +226,8 @@ h3 { font-size: 1.125rem; line-height: 1.4; }
 .plugin-heading { align-self: center; }
 .plugin-id { grid-column: 1 / -1; color: var(--primary-color); font-size: .8125rem; }
 .plugin-description, .plugin-attribution { grid-column: 1 / -1; color: var(--text-secondary); }
-.plugin-description { line-height: 1.7; }
+.plugin-description { line-height: 1.7; text-wrap: pretty; }
+.plugin-description:lang(zh-CN) { word-break: keep-all; }
 .plugin-attribution { font-size: .8125rem; }
 .version-list { padding-block-start: 1rem; border-block-start: 1px solid var(--border-color); }
 .version + .version { margin-block-start: 1rem; padding-block-start: 1rem; border-block-start: 1px solid var(--border-color); }
