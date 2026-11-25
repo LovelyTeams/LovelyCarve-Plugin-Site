@@ -51,6 +51,7 @@
         <h2 data-en="Available plugins">可下载的插件</h2>
         <p id="release-count"></p>
       </div>
+      <p class="web-install-help" id="web-install-help" data-en="Installing from this page requires a desktop build with web install support. You can also download the package.">网页安装需要支持此功能的 LovelyCarve 桌面版。也可以下载插件包。</p>
       <p id="catalog-status" class="status" role="status"></p>
       <noscript><p>查看插件包、下载地址及校验值，请打开 <a href="./index.json">市场索引</a>。</p></noscript>
       <ul id="catalog" class="catalog"></ul>
@@ -71,8 +72,11 @@
       <template id="version-template">
         <li class="version">
           <div class="version-meta">
-            <strong class="version-number"></strong>
-            <time></time>
+            <div class="release-info">
+              <strong class="version-number"></strong>
+              <time></time>
+            </div>
+            <a class="button primary install-link" aria-describedby="web-install-help"></a>
           </div>
           <ul class="downloads"></ul>
         </li>

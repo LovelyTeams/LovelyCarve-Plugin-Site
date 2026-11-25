@@ -145,6 +145,7 @@ h1 {
 h2 { font-size: clamp(1.65rem, 3.5vw, 2.25rem); line-height: 1.2; }
 h3 { font-size: 1.2rem; line-height: 1.35; }
 #release-count { color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums; }
+.web-install-help { margin-block: -.55rem 1.125rem; color: var(--muted); font-size: .875rem; }
 .status { color: var(--muted); }
 .status:not(:empty) { padding-block: .5rem; }
 .catalog, .versions, .downloads { list-style: none; }
@@ -186,7 +187,8 @@ h3 { font-size: 1.2rem; line-height: 1.35; }
 }
 .version + .version { border-block-start: 1px solid var(--line); padding-block-start: .75rem; }
 .version-meta, .download-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .3rem .75rem; }
-.version-meta { margin-block-end: .45rem; }
+.version-meta { margin-block-end: .65rem; }
+.release-info { display: grid; gap: .15rem; }
 .version-number { color: var(--accent); font-size: .875rem; }
 .version-meta time, .size { color: var(--muted); font-size: .8125rem; font-variant-numeric: tabular-nums; }
 .download + .download { margin-block-start: .55rem; }

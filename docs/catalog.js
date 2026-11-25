@@ -7,6 +7,7 @@ const copy = english ? {
   index: "Open market index",
   count: (count) => `${count} ${count === 1 ? "plugin" : "plugins"}`,
   download: "Download",
+  install: "Install in LovelyCarve",
   checksum: "SHA-256 checksum",
   copied: "Market URL copied.",
   manual: "Select and copy the market URL from the link above.",
@@ -17,6 +18,7 @@ const copy = english ? {
   index: "打开市场索引",
   count: (count) => `${count} 个插件`,
   download: "下载",
+  install: "在 LovelyCarve 中安装",
   checksum: "SHA-256 校验值",
   copied: "已复制市场源地址。",
   manual: "请选中上方的市场源地址并手动复制。",
@@ -107,12 +109,17 @@ function renderDownload(artifact, name, version) {
   return entry;
 }
 
-function renderVersion(release, name) {
+function renderVersion(release, name, pluginId) {
   const row = fromTemplate("version-template");
   setText(row, ".version-number", `v${release.version}`);
   const date = row.querySelector("time");
   date.dateTime = release.published;
   date.textContent = dateFormat.format(new Date(release.published));
+  const install = row.querySelector(".install-link");
+  const identity = new URLSearchParams({ id: pluginId, version: release.version });
+  install.href = `lovelycarve://install-plugin?${identity}`;
+  install.textContent = copy.install;
+  install.setAttribute("aria-label", `${copy.install} · ${name} v${release.version}`);
   const downloads = row.querySelector(".downloads");
   for (const artifact of release.packages) {
     downloads.append(renderDownload(artifact, name, release.version));
@@ -139,7 +146,7 @@ function renderPlugin(plugin) {
 
   const versions = entry.querySelector(".versions");
   const released = [...plugin.versions].sort((a, b) => Date.parse(b.published) - Date.parse(a.published));
-  for (const release of released) versions.append(renderVersion(release, name));
+  for (const release of released) versions.append(renderVersion(release, name, plugin.id));
   return entry;
 }
 
