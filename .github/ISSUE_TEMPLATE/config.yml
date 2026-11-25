@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: LovelyCarve 问题反馈
+    url: https://github.com/LovelyTeams/LovelyCarve/issues/new/choose
+    about: 在主仓库报告应用问题或提出功能建议。

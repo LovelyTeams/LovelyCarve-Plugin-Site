@@ -1,0 +1,47 @@
+name: 插件自荐 · Plugin submission
+description: 提交插件收录申请，附上下载链接和实际运行截图。
+title: "[插件自荐] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        每个插件提交一个 Issue。请使用可公开的样例演示插件，中文或英文均可。
+  - type: input
+    id: plugin
+    attributes:
+      label: 插件名称和 ID
+      description: 请填写插件清单里的名称和 ID。
+      placeholder: 示例插件（org.example.demo）
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 插件用途
+      description: 说明插件分析什么检材、如何在 LovelyCarve 里运行，以及会输出哪些结果。
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: 源码仓库或项目主页
+      description: 请提供公开链接，并确保页面可查到维护者和许可证。
+      placeholder: https://github.com/owner/project
+    validations:
+      required: true
+  - type: textarea
+    id: release
+    attributes:
+      label: 可安装的插件包
+      description: 提供公开的 .lcpkg 下载链接，并注明插件版本、运行平台和用于测试的 LovelyCarve 版本。多个平台请分行列出。
+      placeholder: 1.0.0 · Windows x64 · LovelyCarve 2.0.0 · https://…
+    validations:
+      required: true
+  - type: upload
+    id: screenshots
+    attributes:
+      label: 运行截图
+      description: 至少上传一张实际运行截图，能看清插件名称和主要输出。请用公开或合成检材，遮盖画面中的个人信息和本地路径。
+    validations:
+      required: true
+      accept: ".png,.jpg,.jpeg"

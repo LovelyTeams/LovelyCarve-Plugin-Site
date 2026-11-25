@@ -4,6 +4,10 @@
 
 [插件发布页](https://lovelyteams.github.io/LovelyCarve-Plugin-Site/) · [市场索引](https://lovelyteams.github.io/LovelyCarve-Plugin-Site/index.json) · [索引格式](https://github.com/LovelyTeams/LovelyCarve/blob/main/docs/PLUGIN_PROTOCOL.md#插件市场)
 
+## 自荐插件
+
+通过[插件自荐表单](https://github.com/LovelyTeams/LovelyCarve-Plugin-Site/issues/new?template=plugin-submission.yml)提交插件用途、项目地址、可安装的 `.lcpkg` 和兼容版本。请上传至少一张能看清插件实际输出的截图。
+
 ## 发布插件
 
 1. 在 LovelyCarve 主仓库的干净工作树运行 `just pack-plugins`。
