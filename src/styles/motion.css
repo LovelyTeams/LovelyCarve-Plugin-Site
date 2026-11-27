@@ -1,0 +1,84 @@
+/* ============================================================
+ * motion.css — the keyframes and primitive motion of LovelyCarve's
+ * src/styles/motion.css that the page uses. Decorative rules sit under
+ * :where(:root[data-motion='full']), so nothing here runs with motion off.
+ * Keyframes animate translate / scale / rotate and declare only their start
+ * state; entrances run with `backwards` fill.
+ * ============================================================ */
+
+@keyframes ui-rise-in {
+    from { opacity: 0; translate: 0 var(--ui-rise-distance, 8px); }
+}
+
+@keyframes ui-bounce-in {
+    from { opacity: 0; scale: 0.5; }
+}
+
+@keyframes ui-check-draw {
+    from { clip-path: inset(0 100% 0 0); }
+}
+
+@keyframes ui-check-decay {
+    0%, 75% { opacity: 1; scale: 1; }
+    100% { opacity: 0; scale: 0.92; }
+}
+
+:where(:root[data-motion='full']) .ui-alert {
+    --ui-rise-distance: -4px;
+    animation: ui-rise-in var(--motion-normal) var(--ease-out) backwards;
+}
+
+:where(:root[data-motion='full']) .ui-empty > * {
+    animation: ui-rise-in var(--motion-normal) var(--ease-out) backwards;
+}
+
+:where(:root[data-motion='full']) .ui-empty > .ui-empty-icon {
+    animation: ui-bounce-in var(--motion-slow) var(--ease-spring) backwards;
+}
+
+.ui-empty > :where(:nth-child(2)) { animation-delay: 60ms; }
+.ui-empty > :where(:nth-child(n + 3)) { animation-delay: 110ms; }
+
+/* Press: shrink within --motion-press, spring back on --ease-squish. The
+   lists follow each primitive's transition-property order. */
+:where(:root[data-motion='full']) .ui-btn:where(:active:not(:disabled)) {
+    scale: 0.97;
+    transition-duration: var(--motion-fast), var(--motion-fast), var(--motion-fast), var(--motion-fast), var(--motion-press);
+    transition-timing-function: var(--ease-swift), var(--ease-swift), var(--ease-swift), var(--ease-swift), var(--ease-out);
+}
+
+:where(:root[data-motion='full']) .ui-icon-btn:where(:active:not(:disabled)) {
+    scale: 0.92;
+    transition-duration: var(--motion-fast), var(--motion-fast), var(--motion-fast), var(--motion-press);
+    transition-timing-function: var(--ease-swift), var(--ease-swift), var(--ease-swift), var(--ease-out);
+}
+
+/* Copy confirmation: the check that replaces the copy icon for 1.5s draws
+   in, holds, then fades before the swap back. */
+:where(:root[data-motion='full']) .ui-copied {
+    animation: ui-check-draw 180ms var(--ease-out) backwards, ui-check-decay 1.5s linear forwards;
+}
+
+/* Children rise in one after another (short, non-virtual lists only). */
+:where(:root[data-motion='full']) .ui-stagger > * {
+    animation: ui-rise-in var(--motion-normal) var(--ease-out) backwards;
+    animation-delay: calc(var(--ui-stagger-base, 0ms) + var(--ui-stagger-index) * var(--ui-stagger-step, 35ms));
+}
+
+.ui-stagger > * { --ui-stagger-index: 8; }
+.ui-stagger > :where(:nth-child(1)) { --ui-stagger-index: 0; }
+.ui-stagger > :where(:nth-child(2)) { --ui-stagger-index: 1; }
+.ui-stagger > :where(:nth-child(3)) { --ui-stagger-index: 2; }
+.ui-stagger > :where(:nth-child(4)) { --ui-stagger-index: 3; }
+.ui-stagger > :where(:nth-child(5)) { --ui-stagger-index: 4; }
+.ui-stagger > :where(:nth-child(6)) { --ui-stagger-index: 5; }
+.ui-stagger > :where(:nth-child(7)) { --ui-stagger-index: 6; }
+.ui-stagger > :where(:nth-child(8)) { --ui-stagger-index: 7; }
+
+/* Theme reveal: setTheme grows the new snapshot as a circle from the
+   clicked control; the default cross-fade is off so only that clip runs. */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}

@@ -1,0 +1,133 @@
+/* ============================================================
+ * themes.css — the tokens of LovelyCarve's src/styles/themes.css that the
+ * page uses, with the same names and values. Light is :root; the dark
+ * theme applies through data-theme on <html>, which index.html sets before
+ * the first paint (saved choice, else the system appearance).
+ * Change a value in the app first, then here.
+ * ============================================================ */
+
+:root {
+    color-scheme: light;
+    --font-ui: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
+        'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans SC', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-brand: 'Quicksand';
+    --font-mono: 'Cascadia Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+    --bg-primary: #fcfcfb;
+    --text-primary: #1f1e1c;
+    --text-secondary: #65635e;
+    --border-color: #e6e5df;
+    --titlebar-bg: #f5f4f0;
+    --hover-bg: rgba(31, 30, 28, 0.05);
+    --active-bg: rgba(31, 30, 28, 0.09);
+    --shadow-sm: 0 1px 2px rgba(31, 30, 28, 0.06), 0 2px 6px -1px rgba(31, 30, 28, 0.05);
+
+    --surface-primary: #f9f9f7;
+    --surface-secondary: #ffffff;
+    --surface-tertiary: #f3f3f0;
+    --surface-raised: #ffffff;
+    --primary-color: #a6482a;
+    --primary-glow: rgba(217, 119, 87, 0.22);
+    --primary-soft: rgba(201, 100, 66, 0.1);
+    --accent-contrast: #ffffff;
+    --primary-solid: #b5532f;
+    --primary-solid-hover: #a0472a;
+    --card-shadow: 0 1px 2px rgba(31, 30, 28, 0.04), 0 1px 4px rgba(31, 30, 28, 0.03);
+    --card-shadow-hover: 0 2px 4px rgba(31, 30, 28, 0.05), 0 8px 20px -2px rgba(31, 30, 28, 0.08);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+    --motion-press: 70ms;
+    --motion-fast: 150ms;
+    --motion-normal: 250ms;
+    --motion-slow: 400ms;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-squish: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-swift: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-snap: cubic-bezier(0.32, 0.72, 0, 1);
+    --ease-expand: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+    --brand-wordmark-gradient: linear-gradient(135deg, #1f1e1c 0%, #a6482a 62%, #d97757 100%);
+    --brand-dot-color: #d97757;
+
+    --sidebar-bg: #f5f4f0;
+    --sidebar-hover-bg: rgba(31, 30, 28, 0.05);
+    --sidebar-active-bg: rgba(201, 100, 66, 0.09);
+
+    --sev-critical-fg: #b91c1c;
+    --sev-critical-bg: rgba(239, 68, 68, 0.10);
+    --sev-critical-border: rgba(239, 68, 68, 0.45);
+    --sev-warn-fg: #835800;
+    --sev-warn-bg: rgba(212, 167, 44, 0.12);
+    --sev-warn-border: rgba(191, 135, 0, 0.45);
+    --sev-success-fg: #16722f;
+    --sev-success-bg: rgba(31, 136, 61, 0.10);
+    --sev-success-border: rgba(31, 136, 61, 0.40);
+    --sev-info-fg: #1f5faa;
+    --sev-info-bg: rgba(42, 120, 214, 0.08);
+    --sev-info-border: rgba(42, 120, 214, 0.40);
+
+    --chip-count-bg: rgba(31, 30, 28, 0.07);
+}
+
+:root[data-theme='dark'] {
+    color-scheme: dark;
+    --bg-primary: #171716;
+    --text-primary: #f1f0ec;
+    --text-secondary: #a7a59f;
+    --border-color: #2d2d2b;
+    --titlebar-bg: #0f0f0f;
+    --hover-bg: rgba(255, 255, 255, 0.05);
+    --active-bg: rgba(255, 255, 255, 0.09);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 6px -1px rgba(0, 0, 0, 0.3);
+
+    --surface-primary: #171716;
+    --surface-secondary: #1f1f1e;
+    --surface-tertiary: #1b1b1a;
+    --surface-raised: #393936;
+    --primary-color: #e28c6c;
+    --primary-glow: rgba(217, 119, 87, 0.22);
+    --primary-soft: rgba(217, 119, 87, 0.14);
+    --accent-contrast: #ffffff;
+    --primary-solid: #b5532f;
+    --primary-solid-hover: #a0472a;
+    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.25);
+    --card-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.4), 0 8px 24px -2px rgba(0, 0, 0, 0.45);
+    --brand-wordmark-gradient: linear-gradient(135deg, #f1f0ec 0%, #e28c6c 60%, #d97757 100%);
+    --brand-dot-color: #e28c6c;
+
+    --sidebar-bg: #0f0f0f;
+    --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+    --sidebar-active-bg: rgba(217, 119, 87, 0.14);
+
+    --sev-critical-fg: #fca5a5;
+    --sev-critical-bg: rgba(239, 68, 68, 0.08);
+    --sev-critical-border: rgba(239, 68, 68, 0.45);
+    --sev-warn-fg: #f0c25a;
+    --sev-warn-bg: rgba(212, 167, 44, 0.10);
+    --sev-warn-border: rgba(212, 167, 44, 0.45);
+    --sev-success-fg: #8bd6a0;
+    --sev-success-bg: rgba(52, 168, 83, 0.10);
+    --sev-success-border: rgba(52, 168, 83, 0.45);
+    --sev-info-fg: #93c1f5;
+    --sev-info-bg: rgba(66, 140, 230, 0.10);
+    --sev-info-border: rgba(66, 140, 230, 0.45);
+
+    --chip-count-bg: rgba(255, 255, 255, 0.09);
+}
+
+/* Damped springs sampled into linear(), as in the app; engines without
+   linear() keep the ease-out fallbacks above. */
+@supports (transition-timing-function: linear(0, 1)) {
+    :root,
+    :root[data-theme='dark'] {
+        --ease-squish: linear(0, 0.2459, 0.6526, 0.9468, 1.0764, 1.0915, 1.0585, 1.0219, 0.9993, 0.9914, 0.9921, 0.9957, 0.9988, 1.0004, 1);
+        --ease-settle: linear(0, 0.0465, 0.1551, 0.2909, 0.4311, 0.5618, 0.6759, 0.7705, 0.8456, 0.9028, 0.9447, 0.9739, 0.9933,
+            1.0053, 1.0119, 1.0147, 1.0151, 1.014, 1.0122, 1.0101, 1.008, 1.0061, 1.0045, 1.0031, 1);
+    }
+}

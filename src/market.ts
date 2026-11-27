@@ -1,3 +1,7 @@
+import type { SystemName, Visitor } from './platform';
+import { compareVersions, isPrerelease, isVersion } from './version';
+
+/** The index LovelyCarve reads for install links from this page. */
 export const officialIndex = 'https://lovelyteams.github.io/LovelyCarve-Plugin-Site/index.json';
 
 export interface Artifact {
@@ -10,6 +14,8 @@ export interface Artifact {
 export interface Release {
   version: string;
   published: string;
+  prerelease: boolean;
+  permissions: string[];
   artifacts: Artifact[];
 }
 
@@ -21,18 +27,33 @@ export interface Plugin {
   license?: string;
   englishName?: string;
   englishDescription?: string;
+  /** Highest version first. */
   releases: Release[];
 }
 
-const systems: Record<string, string> = { windows: 'Windows', linux: 'Linux', macos: 'macOS' };
+/** Whether this browser can hand a release to LovelyCarve. */
+export type Availability = 'available' | 'otherSystem' | 'desktopOnly';
+
+const systems: Record<SystemName, string> = { windows: 'Windows', linux: 'Linux', macos: 'macOS' };
 const architectures: Record<string, string> = { x86_64: 'x64', aarch64: 'ARM64', x86: 'x86' };
 
+function isSystem(value: string): value is SystemName {
+  return Object.hasOwn(systems, value);
+}
+
+/** `windows` of `windows-x86_64`. */
+export function systemOf(platform: string): string {
+  return platform.slice(0, Math.max(platform.lastIndexOf('-'), 0));
+}
+
+export function systemLabel(system: SystemName): string {
+  return systems[system];
+}
+
 export function platformLabel(platform: string): string {
-  const separator = platform.lastIndexOf('-');
-  const system = platform.slice(0, separator);
-  const architecture = platform.slice(separator + 1);
-  const os = Object.hasOwn(systems, system) ? systems[system] : undefined;
-  return os ? `${os} ${architectures[architecture] ?? architecture}` : platform;
+  const system = systemOf(platform);
+  const architecture = platform.slice(system.length + 1);
+  return isSystem(system) ? `${systems[system]} ${architectures[architecture] ?? architecture}` : platform;
 }
 
 export function installHref(id: string, version: string): string {
@@ -46,6 +67,53 @@ export function formatSize(bytes: number, format: Intl.NumberFormat): string {
   return `${format.format(bytes)} B`;
 }
 
+/** The first and last eight digits; the full digest stays in the title and the copy. */
+export function shortDigest(sha256: string): string {
+  return `${sha256.slice(0, 8)}…${sha256.slice(-8)}`;
+}
+
+/** The day of an RFC 3339 time as written, as the desktop market shows it. */
+export function publishedDay(published: string): string {
+  return published.slice(0, 10);
+}
+
+/**
+ * The version an install offers, as LovelyCarve picks it: the highest
+ * release with a package for the visitor's system, else the highest
+ * pre-release. Without a known system, or with no package for it, the
+ * highest release of all.
+ */
+export function recommendedRelease(plugin: Plugin, system: Visitor['system']): Release {
+  const forSystem = system && system !== 'mobile'
+    ? plugin.releases.filter(release => release.artifacts.some(artifact => systemOf(artifact.platform) === system))
+    : [];
+  const pool = forSystem.length ? forSystem : plugin.releases;
+  return pool.find(release => !release.prerelease) ?? pool[0];
+}
+
+export function availability(release: Release, visitor: Visitor): Availability {
+  if (visitor.system === 'mobile') return 'desktopOnly';
+  if (visitor.system && !release.artifacts.some(artifact => systemOf(artifact.platform) === visitor.system)) {
+    return 'otherSystem';
+  }
+  return 'available';
+}
+
+/** The package this device would take: its exact platform, or the only one for its system. */
+export function matchesDevice(artifact: Artifact, release: Release, visitor: Visitor): boolean {
+  if (visitor.system === null || visitor.system === 'mobile') return false;
+  if (visitor.architecture) return artifact.platform === `${visitor.system}-${visitor.architecture}`;
+  const forSystem = release.artifacts.filter(candidate => systemOf(candidate.platform) === visitor.system);
+  return forSystem.length === 1 && forSystem[0] === artifact;
+}
+
+/** This device's package first, then the rest of its system, then the others. */
+export function orderedArtifacts(release: Release, visitor: Visitor): Artifact[] {
+  const rank = (artifact: Artifact) => matchesDevice(artifact, release, visitor) ? 0
+    : systemOf(artifact.platform) === visitor.system ? 1 : 2;
+  return [...release.artifacts].sort((left, right) => rank(left) - rank(right));
+}
+
 function record(value: unknown): Record<string, unknown> {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) {
     throw new Error('Expected a market index record');
@@ -56,6 +124,12 @@ function record(value: unknown): Record<string, unknown> {
 function list(value: unknown): unknown[] {
   if (!Array.isArray(value)) throw new Error('Expected a market index list');
   return value;
+}
+
+function nonEmpty(value: unknown): unknown[] {
+  const items = list(value);
+  if (!items.length) throw new Error('Expected a non-empty market index list');
+  return items;
 }
 
 function text(value: unknown): string {
@@ -80,7 +154,7 @@ function artifactHref(value: string, indexUrl: URL): string {
   return url.href;
 }
 
-/** Read the native market index. Each action is derived from the release record. */
+/** Reads the market index the desktop reads (`format` 1); versions come highest first. */
 export function readMarket(value: unknown, indexUrl: URL): Plugin[] {
   const index = record(value);
   if (index.format !== 1) throw new Error('Unsupported market index');
@@ -89,11 +163,14 @@ export function readMarket(value: unknown, indexUrl: URL): Plugin[] {
     const plugin = record(value);
     const locales = plugin.locales == null ? undefined : record(plugin.locales);
     const english = locales?.en == null ? undefined : record(locales.en);
-    const releases = list(plugin.versions).map(value => {
+    const releases = nonEmpty(plugin.versions).map(value => {
       const release = record(value);
+      const version = text(release.version);
+      if (!isVersion(version)) throw new Error(`Invalid version ${version}`);
       const published = text(release.published);
       if (!Number.isFinite(Date.parse(published))) throw new Error('Invalid publication date');
-      const artifacts = list(release.packages).map(value => {
+      const permissions = release.permissions == null ? [] : list(release.permissions).map(text);
+      const artifacts = nonEmpty(release.packages).map(value => {
         const artifact = record(value);
         const { size } = artifact;
         const sha256 = text(artifact.sha256);
@@ -102,9 +179,9 @@ export function readMarket(value: unknown, indexUrl: URL): Plugin[] {
         }
         return { platform: text(artifact.platform), href: artifactHref(text(artifact.url), indexUrl), size, sha256 };
       });
-      return { version: text(release.version), published, artifacts };
+      return { version, published, prerelease: isPrerelease(version), permissions, artifacts };
     });
-    releases.sort((left, right) => Date.parse(right.published) - Date.parse(left.published));
+    releases.sort((left, right) => compareVersions(right.version, left.version));
     return {
       id: text(plugin.id),
       name: text(plugin.name),

@@ -1,0 +1,413 @@
+/* ============================================================
+ * ui.css — the ui-* primitives of LovelyCarve's src/styles/ui.css that the
+ * page uses, with the same classes, sizes and states: buttons, icon
+ * buttons, the segmented control, badges, cards, alerts, empty states,
+ * disclosures and the spinner.
+ *
+ * Every rule is a single class with its modifiers and states inside
+ * :where(), so scoped component rules override a primitive without
+ * !important. The one addition is the touch block at the end, which raises
+ * controls to 40px where the pointer is coarse.
+ * ============================================================ */
+
+/* ── Button ─────────────────────────────────────────────────── */
+.ui-btn {
+    --ui-btn-h: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-shrink: 0;
+    height: var(--ui-btn-h);
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition-property: background-color, border-color, color, box-shadow, scale;
+    transition-duration: var(--motion-fast), var(--motion-fast), var(--motion-fast), var(--motion-fast), var(--motion-slow);
+    transition-timing-function: var(--ease-swift), var(--ease-swift), var(--ease-swift), var(--ease-swift), var(--ease-squish);
+}
+
+.ui-btn:where(:hover:not(:disabled)) {
+    background: color-mix(in srgb, var(--text-primary) 10%, transparent);
+}
+
+.ui-btn:where(:active:not(:disabled)) {
+    background: color-mix(in srgb, var(--text-primary) 14%, transparent);
+}
+
+.ui-btn:where(.primary) {
+    border-color: var(--primary-solid);
+    background: var(--primary-solid);
+    color: var(--accent-contrast);
+    font-weight: 600;
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--primary-solid) 30%, transparent);
+}
+
+.ui-btn:where(.primary:hover:not(:disabled)) {
+    border-color: var(--primary-solid-hover);
+    background: var(--primary-solid-hover);
+}
+
+.ui-btn:where(.ghost) {
+    border-color: transparent;
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.ui-btn:where(.ghost:hover:not(:disabled)) {
+    border-color: transparent;
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.ui-btn:where(.link) {
+    --ui-btn-h: 24px;
+    padding: 0 6px;
+    border-color: transparent;
+    background: transparent;
+    color: var(--primary-color);
+    box-shadow: none;
+}
+
+.ui-btn:where(.link:hover:not(:disabled)) {
+    border-color: transparent;
+    background: var(--sidebar-active-bg);
+}
+
+.ui-btn:where(.sm) {
+    --ui-btn-h: 26px;
+    gap: 4px;
+    padding: 0 10px;
+}
+
+.ui-btn:where(.lg) {
+    --ui-btn-h: 38px;
+    gap: 8px;
+    padding: 0 18px;
+    font-size: 13px;
+}
+
+.ui-btn:where(:disabled, [aria-disabled='true']) {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.ui-btn:where(:focus-visible) {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.ui-btn > svg {
+    flex-shrink: 0;
+}
+
+/* ── Icon button (borderless, square) ─────────────────────── */
+.ui-icon-btn {
+    --ui-icon-btn-size: 28px;
+    display: inline-grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: var(--ui-icon-btn-size);
+    height: var(--ui-icon-btn-size);
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition-property: background-color, color, border-color, scale;
+    transition-duration: var(--motion-fast), var(--motion-fast), var(--motion-fast), var(--motion-slow);
+    transition-timing-function: var(--ease-swift), var(--ease-swift), var(--ease-swift), var(--ease-squish);
+}
+
+.ui-icon-btn:where(:hover:not(:disabled)) {
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.ui-icon-btn:where(:active:not(:disabled)) {
+    background: var(--active-bg);
+}
+
+.ui-icon-btn:where(.sm) {
+    --ui-icon-btn-size: 24px;
+    border-radius: var(--radius-sm);
+}
+
+.ui-icon-btn:where(:disabled) {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.ui-icon-btn:where(:focus-visible) {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+/* ── Segmented control ────────────────────────────────────── */
+.ui-seg {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+    isolation: isolate;
+    padding: 2px;
+    border: 0;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+}
+
+.ui-seg-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 24px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color var(--motion-fast) var(--ease-swift);
+}
+
+.ui-seg-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.ui-seg-item:where(:hover) {
+    color: var(--text-primary);
+}
+
+.ui-seg-item:where(.active, [aria-current='true']) {
+    color: var(--text-primary);
+}
+
+.ui-seg-item:where(.active, [aria-current='true'])::before {
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-sm), 0 0 0 1px color-mix(in srgb, var(--text-primary) 8%, transparent);
+}
+
+.ui-seg-item:where(:focus-visible) {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 1px;
+}
+
+/* ── Badge ────────────────────────────────────────────────── */
+.ui-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    height: 20px;
+    padding: 0 8px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: var(--chip-count-bg);
+    color: var(--text-secondary);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.ui-badge:where(.sm) {
+    height: 18px;
+    padding: 0 6px;
+}
+
+.ui-badge:where(.info) {
+    border-color: color-mix(in srgb, var(--sev-info-border) 60%, transparent);
+    background: var(--sev-info-bg);
+    color: var(--sev-info-fg);
+}
+
+.ui-badge:where(.success) {
+    border-color: color-mix(in srgb, var(--sev-success-border) 60%, transparent);
+    background: var(--sev-success-bg);
+    color: var(--sev-success-fg);
+}
+
+.ui-badge:where(.warn) {
+    border-color: color-mix(in srgb, var(--sev-warn-border) 60%, transparent);
+    background: var(--sev-warn-bg);
+    color: var(--sev-warn-fg);
+}
+
+.ui-badge:where(.outline) {
+    border-color: var(--border-color);
+    background: transparent;
+}
+
+/* ── Card ─────────────────────────────────────────────────── */
+.ui-card {
+    min-width: 0;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--surface-secondary);
+    box-shadow: var(--card-shadow);
+}
+
+.ui-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* ── Alert / inline notice ────────────────────────────────── */
+.ui-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--surface-tertiary);
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.ui-alert > svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.ui-alert:where(.info) {
+    border-color: var(--sev-info-border);
+    background: var(--sev-info-bg);
+    color: var(--sev-info-fg);
+}
+
+.ui-alert:where(.danger) {
+    border-color: var(--sev-critical-border);
+    background: var(--sev-critical-bg);
+    color: var(--sev-critical-fg);
+}
+
+/* ── Empty state ──────────────────────────────────────────── */
+.ui-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 36px 20px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.ui-empty-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 6px;
+    border-radius: var(--radius-lg);
+    background: var(--surface-tertiary);
+    color: var(--text-secondary);
+}
+
+.ui-empty-icon:where(.accent) {
+    background: var(--primary-soft);
+    color: var(--primary-color);
+}
+
+.ui-empty-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ── Disclosure (details / summary) ───────────────────────── */
+.ui-disclosure > summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.ui-disclosure > summary::-webkit-details-marker {
+    display: none;
+}
+
+.ui-disclosure > summary .ui-chevron {
+    flex-shrink: 0;
+    transition: transform var(--motion-normal) var(--ease-out);
+}
+
+.ui-disclosure[open] > summary .ui-chevron {
+    transform: rotate(90deg);
+}
+
+/* ── Loading spinner ──────────────────────────────────────── */
+.spin {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    transform-origin: center center;
+    transform-box: fill-box;
+}
+
+:root[data-motion='reduced'] .spin {
+    animation-duration: 2s;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.mono {
+    font-family: var(--font-mono);
+}
+
+/* ── Touch ────────────────────────────────────────────────── */
+/* The app's sizes are for a mouse; a finger gets 40px targets. */
+@media (pointer: coarse) {
+    .ui-btn {
+        --ui-btn-h: 40px;
+    }
+
+    .ui-icon-btn {
+        --ui-icon-btn-size: 40px;
+    }
+
+    .ui-seg-item {
+        height: 36px;
+    }
+}
